@@ -327,6 +327,88 @@ window.addEventListener('click', e => {
   if (e.target === addModal) addModal.style.display = 'none';
 });
 
+// === PWA: Установка и обновление приложения ===
+let deferredPrompt;
+let swRegistration = null;
+
+const installBtn = document.getElementById('installBtn');
+const updateBtn = document.getElementById('updateBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'inline-block';
+});
+
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+
+  if (outcome === 'accepted') {
+    showAlert('Приложение успешно установлено!');
+  }
+
+  deferredPrompt = null;
+  installBtn.style.display = 'none';
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredPrompt = null;
+  installBtn.style.display = 'none';
+  showAlert('Приложение установлено! Теперь оно доступно на вашем устройстве.');
+});
+
+// Перезагрузка после активации нового SW (регистрируется один раз)
+if ('serviceWorker' in navigator) {
+  let refreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!refreshing) {
+      refreshing = true;
+      window.location.reload();
+    }
+  });
+}
+
+updateBtn.addEventListener('click', () => {
+  if (!swRegistration || !swRegistration.waiting) return;
+
+  swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+
+  updateBtn.style.display = 'none';
+  showAlert('Обновление применяется...');
+});
+
+// Регистрация Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      swRegistration = await navigator.serviceWorker.register('service-worker.js');
+
+      const updateIntervalId = setInterval(() => {
+        swRegistration.update();
+      }, 60000);
+
+      window.addEventListener('beforeunload', () => clearInterval(updateIntervalId));
+
+      swRegistration.addEventListener('updatefound', () => {
+        const newWorker = swRegistration.installing;
+        if (!newWorker) return;
+
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            updateBtn.style.display = 'inline-block';
+            showAlert('Доступно обновление приложения!');
+          }
+        });
+      });
+    } catch (err) {
+      console.warn('Service Worker registration failed:', err);
+    }
+  });
+}
+
 // === Инициализация ===
 window.addEventListener('load', () => {
   checkMasterPassword();
