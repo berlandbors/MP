@@ -31,6 +31,13 @@ self.addEventListener('activate', event => {
   );
 });
 
+// Обработка сообщения для принудительного обновления
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
 // Fetch: стратегия Cache First для статики, Network First для остального
 self.addEventListener('fetch', event => {
   // Игнорируем не-GET запросы

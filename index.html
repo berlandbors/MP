@@ -39,6 +39,8 @@
         <input type="file" id="uploadCsvBtn" accept=".csv" hidden>
       </label>
 
+      <button id="installBtn" style="display: none;"><i class="fas fa-download"></i> Установить приложение</button>
+      <button id="updateBtn" style="display: none;" class="warning"><i class="fas fa-sync-alt"></i> Обновить приложение</button>
       <button id="resetBtn" class="danger"><i class="fas fa-trash"></i> Очистить</button>
     </div>
 
@@ -120,13 +122,6 @@
       });
     });
 
-    // Регистрация Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js')
-          .catch(err => console.warn('Service Worker registration failed:', err));
-      });
-    }
   </script>
 </body>
 </html>
