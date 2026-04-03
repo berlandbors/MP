@@ -92,6 +92,16 @@
   <div id="authScreen" class="modal" style="display: flex;">
     <div class="modal-content">
       <h2 id="authTitle">Введите мастер-пароль</h2>
+      <div id="authInfo" style="margin: 15px 0; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 5px; font-size: 14px; line-height: 1.6;">
+        <p style="margin: 5px 0;"><strong>📌 Важная информация:</strong></p>
+        <ul style="text-align: left; padding-left: 20px; margin: 10px 0;">
+          <li>Мастер-пароль защищает все ваши данные</li>
+          <li>Используйте надёжный пароль (минимум 8 символов)</li>
+          <li>Пароль нельзя восстановить — запомните его!</li>
+          <li>Данные хранятся локально в вашем браузере</li>
+          <li>Регулярно экспортируйте данные в зашифрованный JSON</li>
+        </ul>
+      </div>
       <input type="password" id="authInput" placeholder="Мастер-пароль" />
       <button id="authSubmitBtn">Войти</button>
       <p id="authError" style="color: red;"></p>

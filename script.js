@@ -127,7 +127,7 @@ function savePassword() {
   password.value = '';
 
   loadPasswords();
-  showAlert('Запись успешно сохранена!');
+  showAlert('Новый сервис успешно добавлен!');
   addModal.style.display = 'none';
 }
 
@@ -151,7 +151,7 @@ function deletePassword() {
 
 function copyPassword() {
   const text = modalPassword.textContent.replace('Пароль: ', '');
-  navigator.clipboard.writeText(text).then(() => showAlert1('Пароль скопирован!'));
+  navigator.clipboard.writeText(text).then(() => showAlert('Пароль скопирован!'));
 }
 
 function clearFields() {
