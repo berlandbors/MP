@@ -149,9 +149,24 @@ function deletePassword() {
   loadPasswords();
 }
 
+let copyNotificationTimeout = null;
+
 function copyPassword() {
   const text = modalPassword.textContent.replace('Пароль: ', '');
-  navigator.clipboard.writeText(text).then(() => showAlert('Пароль скопирован!'));
+  const notification = document.getElementById('copyNotification');
+
+  navigator.clipboard.writeText(text).then(() => {
+    if (!notification) return;
+
+    // Показать уведомление в модальном окне
+    notification.style.display = 'block';
+
+    // Сбросить предыдущий таймер и скрыть уведомление через 2 секунды
+    clearTimeout(copyNotificationTimeout);
+    copyNotificationTimeout = setTimeout(() => {
+      notification.style.display = 'none';
+    }, 2000);
+  });
 }
 
 function clearFields() {

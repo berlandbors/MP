@@ -490,3 +490,33 @@ h1::after {
   .modal-content { padding: 18px 14px; }
   .modal-content::before { display: none; }
 }
+/* === Уведомление о копировании в модальном окне === */
+.copy-notification {
+  background-color: rgba(0, 230, 118, 0.15);
+  color: var(--green-bright);
+  padding: 10px 14px;
+  margin: 12px 0;
+  text-align: center;
+  border: 1px solid var(--green);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.6);
+  box-shadow: 0 0 12px rgba(0, 230, 118, 0.2);
+  animation: fadeIn 0.3s ease-in;
+}
+
+.copy-notification i {
+  margin-right: 6px;
+  color: var(--green-bright);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
